@@ -26,13 +26,11 @@ Database changed
 MysqlDB [Billage]> grant all privileges on Billage.* to 'root'@'%' identified by '최초실행시생성한비밀번호';
 ```
 
-### 2) secreats.json 생성 후 자신의 MysqlDB 정보로 수정해줍니다
+### 2) .env 생성 후 자신의 MysqlDB 정보로 수정해줍니다
 
 ```
-{
-    "SECRET_KEY":"따로 제공",
-    "DB_PASSWORD": "최초실행시생성한비밀번호"
-}
+export SECRET_KEY = 따로 제공 
+export DB_PASSWORD = 개인 비밀번호
 
 ```
 
