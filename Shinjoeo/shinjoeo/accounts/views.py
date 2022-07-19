@@ -53,6 +53,5 @@ def getUserInfo(reqeust):
             username = user_id,
             first_name = nickname
         )
-        user.save()
     print(response.json())
     return Response(res.text)
