@@ -35,7 +35,7 @@ def getUserInfo(reqeust):
 
     user_url = "https://kapi.kakao.com/v2/user/me"
     auth = "Bearer " + token_json['access_token']
-    
+
     HEADER = {
         "Authorization": auth,
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
