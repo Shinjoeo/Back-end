@@ -45,6 +45,12 @@ def getUserInfo(request):
     json_data = res.json()
     user_id = json_data["id"]
     nickname = json_data["properties"]["nickname"]
+
+    my_res = {
+        'user_id' : user_id,
+        'user_name' : nickname
+    }
+
     # print("=========="+str(json_data["id"]))
     if User.objects.filter(username = user_id).exists():
         user = User.objects.get(username = user_id)
@@ -54,7 +60,7 @@ def getUserInfo(request):
             first_name = nickname
         )
     print(response.json())
-    return Response(res.text)
+    return Response(my_res)
 
 '''
 logout은 frontend에서 아래 링크를 바로 연결시킬 예정
