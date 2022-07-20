@@ -17,7 +17,7 @@ newword_list = NewWordViewSet.as_view({
 newword_one = NewWordViewSet.as_view({
     # 'get': 'retrieve',
     'delete': 'destroy',
-    'post_like': 'create',
+    'post': 'update',
 })
 
 urlpatterns =[
