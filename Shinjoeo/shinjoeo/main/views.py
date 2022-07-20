@@ -20,14 +20,12 @@ class NewWordViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk):
         queryset = NewWord.objects.all()
-        newword_id = pk
         newword = get_object_or_404(queryset, id=pk)
         user = request.user
         user_ob = User.objects.get(username=user)
         newword.like_user_ids.add(user_ob)
-        print(user_ob.username)
-        # return redirect("http://localhost:8000/main/list/")
-       # return Response(status=status.HTTP_200_OK)
+        newword.likecount=newword.likecount+1
+        newword.save()
         return Response({"active":"Success"},status=status.HTTP_200_OK)
         
 
