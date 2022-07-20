@@ -115,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -141,6 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 KAKAO_CONFIG = {
     "KAKAO_REST_API_KEY": os.environ.get("RESTAPI_KEY"),
-    "KAKAO_REDIRECT_URI": "http://localhost:8000/accounts/kakao/login/callback/",
+    "KAKAO_REDIRECT_URI": "http://localhost:8000/login/callback/",
+    "KAKAO_LOGOUT_REDIRECT_URI": "http://127.0.0.1:8000/accounts/login",
     "KAKAO_CLIENT_SECRET_KEY": os.environ.get("CLIENT_SECRET"), 
 }
