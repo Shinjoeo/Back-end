@@ -24,8 +24,6 @@ class NewWordViewSet(viewsets.ModelViewSet):
         user = request.user
         user_ob = User.objects.get(username=user)
         newword.like_user_ids.add(user_ob)
-        newword.likecount=newword.likecount+1
-        newword.save()
         return Response({"active":"Success"},status=status.HTTP_200_OK)
         
 
@@ -44,6 +42,8 @@ class NewWordListCreateTime(ListAPIView):
         return queryset
 
 #좋아요순
+class NewWordListLikeCount(ListAPIView):
+    serializer_class = NewWordSerializer
 
     def get_queryset(self):
         queryset = NewWord.objects.annotate(q_count=Count('like_user_ids')).order_by('-q_count')
