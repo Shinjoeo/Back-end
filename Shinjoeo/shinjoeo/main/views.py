@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from uritemplate import partial
+from django.db.models import Count
 from .models import NewWord
 from .serializers import NewWordSerializer
 from rest_framework import viewsets
@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth.models import User
-from django.shortcuts import get_list_or_404
-import sys
+
+
 
 
 #글 작성, 수정
@@ -44,6 +44,7 @@ class NewWordListCreateTime(ListAPIView):
         return queryset
 
 #좋아요순
-# class NewWordList_LikeCount(ListAPIView):
-#     queryset = NewWord.objects.all().order_by('')
-#     serializer_class = NewWordSerializer
+
+    def get_queryset(self):
+        queryset = NewWord.objects.annotate(q_count=Count('like_user_ids')).order_by('-q_count')
+        return queryset
