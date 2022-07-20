@@ -44,9 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',
+    'accounts.apps.AccountsConfig',
+    'rest_framework',
     'main',
-    'accounts',
+
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,3 +138,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+KAKAO_CONFIG = {
+    "KAKAO_REST_API_KEY": os.environ.get("RESTAPI_KEY"),
+    "KAKAO_REDIRECT_URI": "http://localhost:8000/login/callback/",
+    "KAKAO_LOGOUT_REDIRECT_URI": "http://127.0.0.1:8000/accounts/login",
+    "KAKAO_CLIENT_SECRET_KEY": os.environ.get("CLIENT_SECRET"), 
+}
