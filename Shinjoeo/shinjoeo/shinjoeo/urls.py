@@ -19,6 +19,6 @@ from accounts.views import getUserInfo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('accounts.urls')),
-    path('accounts/kakao/login/callback/', getUserInfo),
+    path('accounts/', include('accounts.urls')),
+    path('login/callback/', getUserInfo),
 ]
