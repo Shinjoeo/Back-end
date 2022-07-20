@@ -1,8 +1,6 @@
 from django.urls import path,include
-from .views import NewWordViewSet,NewWordListAPI
+from .views import NewWordViewSet, NewWordList_CreateTime
 from rest_framework.routers import DefaultRouter
-from django.conf import settings
-from django.conf.urls.static import static
 
 router = DefaultRouter()
 
@@ -22,7 +20,8 @@ newword_one = NewWordViewSet.as_view({
 
 urlpatterns =[
     path('', include(router.urls)),
-    path('list/', NewWordListAPI.as_view()),
+    path('list/', NewWordList_CreateTime.as_view()),
+#    path('listbylike/', NewWordList_LikeCount.as_view()),
     path('newword/', newword_list),
     path('newword/<int:pk>/', newword_one),
 ]

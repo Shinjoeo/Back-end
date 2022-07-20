@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.contrib import auth
+from django.contrib.auth import login, authenticate
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
@@ -55,18 +56,28 @@ def getUserInfo(request):
 
     # print("=========="+str(json_data["id"]))
     if User.objects.filter(username = user_id).exists():
+# <<<<<<< HEAD
+#         user=authenticate(
+#             username=user_id,
+#             password='',
+#             first_name = nickname
+#         )
+#         if user is not None:
+#             login(request, user)
+# =======
         user = User.objects.get(username = user_id)
+# >>>>>>> upstream/developer
     else:
-        user = User.objects.create(
+        user = User.objects.create_user(
             username = user_id,
             first_name = nickname,
-            password = 111111 
         )
-
+        user.set_unusable_password()
+        user.save()
     print(response.json())
     return Response(my_res)
 
-'''
-logout은 frontend에서 아래 링크를 바로 연결시킬 예정
-https://accounts.kakao.com/logout?continue=https://kauth.kakao.com/oauth/logout/callback?logout_redirect_url=http://127.0.0.1:8000/accounts/login&client_id=fad3300d7c33374e2bb2bab358bcbec3
-'''
+# '''
+# logout은 frontend에서 아래 링크를 바로 연결시킬 예정
+# https://accounts.kakao.com/logout?continue=https://kauth.kakao.com/oauth/logout/callback?logout_redirect_url=http://127.0.0.1:8000/accounts/login&client_id=fad3300d7c33374e2bb2bab358bcbec3
+# '''
