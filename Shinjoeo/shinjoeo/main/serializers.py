@@ -5,3 +5,4 @@ class NewWordSerializer(serializers.ModelSerializer):
     class Meta:
         model=NewWord
         fields= '__all__'
+    
