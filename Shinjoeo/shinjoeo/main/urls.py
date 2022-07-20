@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 
 router = DefaultRouter()
 
-router.register('newword',NewWordViewSet)
+router.register('newword',NewWordViewSet,basename ='newword')
 
 #신조어 목록 보여주기 + 새로운 게시글 생성
 newword_list = NewWordViewSet.as_view({
@@ -18,6 +18,7 @@ newword_list = NewWordViewSet.as_view({
 newword_one = NewWordViewSet.as_view({
     # 'get': 'retrieve',
     'delete': 'destroy',
+    'post_like': 'create',
 })
 
 urlpatterns =[
