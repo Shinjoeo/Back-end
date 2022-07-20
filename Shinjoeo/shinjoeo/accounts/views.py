@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
@@ -18,8 +19,8 @@ def kakaoGetLogin(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
-def getUserInfo(reqeust):
-    CODE = reqeust.query_params['code']
+def getUserInfo(request):
+    CODE = request.query_params['code']
     url = "https://kauth.kakao.com/oauth/token"
     res = {
         'grant_type': 'authorization_code',
@@ -46,12 +47,20 @@ def getUserInfo(reqeust):
     user_id = json_data["id"]
     nickname = json_data["properties"]["nickname"]
     # print("=========="+str(json_data["id"]))
-    if User.objects.filter(id = user_id).exists():
-        user = User.objects.get(id = user_id)
+    if User.objects.filter(username = user_id).exists():
+        user=authenticate(
+            username=user_id,
+            password='',
+            first_name = nickname
+        )
+        if user is not None:
+            login(request, user)
     else:
-        user = User.objects.create(
+        user = User.objects.create_user(
             username = user_id,
             first_name = nickname
         )
+        user.set_unusable_password()
+        user.save()
     print(response.json())
     return Response(res.text)
