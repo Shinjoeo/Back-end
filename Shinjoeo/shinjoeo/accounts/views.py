@@ -38,7 +38,7 @@ def getUserInfo(request):
 
     user_url = "https://kapi.kakao.com/v2/user/me"
     auth = "Bearer " + token_json['access_token']
-    
+
     HEADER = {
         "Authorization": auth,
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
@@ -47,17 +47,27 @@ def getUserInfo(request):
     json_data = res.json()
     user_id = json_data["id"]
     nickname = json_data["properties"]["nickname"]
+
+    my_res = {
+        'user_id' : user_id,
+        'user_name' : nickname
+    }
+
+    # print("=========="+str(json_data["id"]))
     if User.objects.filter(username = user_id).exists():
         user = User.objects.get(username = user_id)
-        # auth.login(request,user)
     else:
         user = User.objects.create(
             username = user_id,
             first_name = nickname,
             password = 111111 
         )
-        # auth.login(request,user)
 
     print(response.json())
-    return Response(res.text)
+    return Response(my_res)
+
+'''
+logout은 frontend에서 아래 링크를 바로 연결시킬 예정
+https://accounts.kakao.com/logout?continue=https://kauth.kakao.com/oauth/logout/callback?logout_redirect_url=http://127.0.0.1:8000/accounts/login&client_id=fad3300d7c33374e2bb2bab358bcbec3
+'''
 
