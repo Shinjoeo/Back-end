@@ -7,6 +7,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth import login,logout
+from django.contrib.auth.decorators import login_required
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
@@ -64,8 +66,13 @@ def getUserInfo(request):
         )
 
     print(response.json())
+    login(request,user=user)
     return Response(my_res)
 
+@login_required
+def logoutView(request):
+    logout(request)
+    return redirect('https://accounts.kakao.com/logout?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Flogout%2Fcallback%3Fclient_id%3Dfad3300d7c33374e2bb2bab358bcbec3%26logout_redirect_uri%3Dhttp%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Flogin')
 '''
 logout은 frontend에서 아래 링크를 바로 연결시킬 예정
 https://accounts.kakao.com/logout?continue=https://kauth.kakao.com/oauth/logout/callback?logout_redirect_url=http://127.0.0.1:8000/accounts/login&client_id=fad3300d7c33374e2bb2bab358bcbec3
