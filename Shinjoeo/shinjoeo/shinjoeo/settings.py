@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'accounts.apps.AccountsConfig',
     'rest_framework',
+    'main',
 
 ]
 
