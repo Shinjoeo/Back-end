@@ -57,28 +57,17 @@ def getUserInfo(request):
 
     # print("=========="+str(json_data["id"]))
     if User.objects.filter(username = user_id).exists():
-# <<<<<<< HEAD
-#         user=authenticate(
-#             username=user_id,
-#             password='',
-#             first_name = nickname
-#         )
-#         if user is not None:
-#             login(request, user)
-# =======
         user = User.objects.get(username = user_id)
-# >>>>>>> upstream/developer
     else:
-        user = User.objects.create_user(
+        user = User.objects.create(
             username = user_id,
             first_name = nickname,
+            password = 111111 
         )
-        user.set_unusable_password()
-        user.save()
+
     print(response.json())
     login(request,user=user)
     return Response(my_res)
-
 
 @login_required
 def logoutView(request):

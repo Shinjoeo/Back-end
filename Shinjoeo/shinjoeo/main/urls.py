@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register(r'newword',NewWordViewSet)
+router.register('newword',NewWordViewSet)
 
 #신조어 목록 보여주기 + 새로운 게시글 생성
 newword_list = NewWordViewSet.as_view({
