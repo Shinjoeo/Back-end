@@ -1,6 +1,4 @@
 from urllib import response
-from django.shortcuts import render
-from django.shortcuts import redirect
 from django.db.models import Count
 from .models import NewWord
 from .serializers import NewWordSerializer
@@ -11,8 +9,8 @@ from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth.models import User
-from django.shortcuts import get_list_or_404, get_object_or_404
-import sys
+from django.shortcuts import get_object_or_404
+from django.db.models import Q, F
 
 # Create your views here.
 class NewWordViewSet(viewsets.ModelViewSet):
@@ -27,9 +25,9 @@ class NewWordViewSet(viewsets.ModelViewSet):
         user = request.user
         user_ob = User.objects.get(username=user)
         newword.like_user_ids.add(user_ob)
-        print(user_ob.username)
+        NewWord.objects.filter(id=pk).update(likeCnt=F('likeCnt')+1)        
         # return redirect("http://localhost:8000/main/list/")
-       # return Response(status=status.HTTP_200_OK)
+        # return Response(status=status.HTTP_200_OK)
         return Response({"active":"Success"},status=status.HTTP_200_OK)
         
 
@@ -53,7 +51,7 @@ class NewWordListLikeCount(ListAPIView):
     serializer_class = NewWordSerializer
 
     def get_queryset(self):
-        queryset = NewWord.objects.annotate(q_count=Count('like_user_ids')).order_by('-q_count')
+        queryset = NewWord.objects.annotate(q_count=Count('like_user_ids')).order_by('-q_count', '-create_time')
         return queryset
 
 #검색
