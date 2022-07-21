@@ -57,33 +57,22 @@ def getUserInfo(request):
 
     # print("=========="+str(json_data["id"]))
     if User.objects.filter(username = user_id).exists():
-# <<<<<<< HEAD
-#         user=authenticate(
-#             username=user_id,
-#             password='',
-#             first_name = nickname
-#         )
-#         if user is not None:
-#             login(request, user)
-# =======
         user = User.objects.get(username = user_id)
-# >>>>>>> upstream/developer
     else:
         user = User.objects.create_user(
             username = user_id,
             first_name = nickname,
         )
         user.set_unusable_password()
-        user.save()
     print(response.json())
     login(request,user=user)
     return Response(my_res)
 
-
 @login_required
 def logoutView(request):
     logout(request)
-    return redirect('https://accounts.kakao.com/logout?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Flogout%2Fcallback%3Fclient_id%3Dfad3300d7c33374e2bb2bab358bcbec3%26logout_redirect_uri%3Dhttp%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Flogin')
+    url = str('https://accounts.kakao.com/logout?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Flogout%2Fcallback%3Fclient_id%3Dfad3300d7c33374e2bb2bab358bcbec3%26logout_redirect_uri%3Dhttp%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Flogin')
+    return redirect(url)
 '''
 logout은 frontend에서 아래 링크를 바로 연결시킬 예정
 https://accounts.kakao.com/logout?continue=https://kauth.kakao.com/oauth/logout/callback?logout_redirect_url=http://127.0.0.1:8000/accounts/login&client_id=fad3300d7c33374e2bb2bab358bcbec3
