@@ -1,6 +1,7 @@
 from urllib import response
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.db.models import Count
 from .models import NewWord
 from .serializers import NewWordSerializer
 from rest_framework import viewsets
@@ -48,8 +49,11 @@ class NewWordListCreateTime(ListAPIView):
         return queryset
 
 #좋아요순
-# class NewWordList_LikeCount(ListAPIView):
-#     queryset = NewWord.objects.all().order_by('')
-#     serializer_class = NewWordSerializer
+class NewWordListLikeCount(ListAPIView):
+    serializer_class = NewWordSerializer
+
+    def get_queryset(self):
+        queryset = NewWord.objects.annotate(q_count=Count('like_user_ids')).order_by('-q_count')
+        return queryset
 
 #검색
